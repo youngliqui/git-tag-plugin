@@ -20,10 +20,15 @@ class Tag {
 
     void incrementMajor() {
         major++
+        minor = 0
+        patch = 0
+        label = ""
     }
 
     void incrementMinor() {
         minor++
+        patch = 0
+        label = ""
     }
 
     void setLabel(String label) {

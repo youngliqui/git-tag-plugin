@@ -23,7 +23,6 @@ class CreateTagTask extends DefaultTask {
         println "New Tag: $newTag"
 
         if (GitHelper.hasUncommittedChanges()) {
-            println "Has uncommitted changes"
             logger.lifecycle("${newTag}.uncommited")
         } else {
             println "Created tag: $newTag, and pushed"
@@ -49,6 +48,7 @@ class CreateTagTask extends DefaultTask {
                 currentTag.incrementMajor()
                 break
             default:
+                currentTag.incrementMinor()
                 currentTag.setLabel("-SNAPSHOT")
         }
 
