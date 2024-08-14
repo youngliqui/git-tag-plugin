@@ -1,1 +1,3 @@
 rootProject.name = 'create-tag-plugin'
+
+include 'app'

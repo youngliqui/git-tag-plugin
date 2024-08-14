@@ -1,3 +1,16 @@
 plugins {
+    id 'java-gradle-plugin'
     id 'groovy'
+}
+
+group = 'ru.clevertec'
+
+gradlePlugin {
+    plugins {
+        register("git-tag-plugin") {
+            description = "Сreates a git tag depending on the current branch"
+            id = "git-tag-plugin"
+            implementationClass = 'ru.clevertec.plugin.GitTagPlugin'
+        }
+    }
 }
