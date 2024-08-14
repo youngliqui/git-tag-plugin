@@ -31,7 +31,7 @@ class CreateTagTask extends DefaultTask {
         }
     }
 
-    private static Tag calculateTag(String currentBranch, String lastTagString) {
+    static Tag calculateTag(String currentBranch, String lastTagString) {
         Tag currentTag =
                 lastTagString ? Tag.fromString(lastTagString) : new Tag(0, 0, 0, "")
 

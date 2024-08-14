@@ -46,4 +46,27 @@ class Tag {
         }
         throw new IllegalArgumentException("Invalid tag format: $tagString")
     }
+
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (o == null || getClass() != o.class) return false
+
+        Tag tag = (Tag) o
+
+        if (major != tag.major) return false
+        if (minor != tag.minor) return false
+        if (patch != tag.patch) return false
+        if (label != tag.label) return false
+
+        return true
+    }
+
+    int hashCode() {
+        int result
+        result = major
+        result = 31 * result + minor
+        result = 31 * result + patch
+        result = 31 * result + (label != null ? label.hashCode() : 0)
+        return result
+    }
 }
