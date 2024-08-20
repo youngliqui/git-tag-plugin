@@ -2,7 +2,7 @@ package ru.clevertec.task
 
 
 import org.junit.jupiter.api.Test
-import ru.clevertec.task.util.Tag
+import ru.clevertec.model.Tag
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertThrows

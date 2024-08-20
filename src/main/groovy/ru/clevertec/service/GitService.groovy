@@ -1,31 +1,40 @@
-package ru.clevertec.task.util
+package ru.clevertec.service
 
-class GitHelper {
-    static String getCurrentBranch() {
+class GitService {
+    String getCurrentBranch() {
         executeGitCommand("rev-parse --abbrev-ref HEAD").trim()
     }
 
-    static String getLastTag() {
+    String getLastTag() {
         executeGitCommand("describe --abbrev=0 --tags").trim()
     }
 
-    static boolean hasCurrentStateTag() {
+    boolean hasCurrentStateTag() {
         executeGitCommand("describe --exact-match --tags").trim()
     }
 
-    static boolean hasUncommittedChanges() {
+    boolean hasUncommittedChanges() {
         executeGitCommand("status --porcelain").trim()
     }
 
-    static void createTag(String tagName) {
+    void createTag(String tagName) {
         executeGitCommand("tag $tagName")
     }
 
-    static void pushTag(String tagName) {
+    void pushTag(String tagName) {
         executeGitCommand("push origin $tagName")
     }
 
-    private static String executeGitCommand(String command) {
+    boolean isGitInstalled() {
+        executeGitCommand("status").trim()
+    }
+
+    boolean hasRemoteRepository() {
+        executeGitCommand("remote -v").trim()
+    }
+
+
+    private String executeGitCommand(String command) {
         def process = "git $command".execute()
         process.waitFor()
 

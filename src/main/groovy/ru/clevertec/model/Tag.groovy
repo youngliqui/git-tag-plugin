@@ -1,10 +1,17 @@
-package ru.clevertec.task.util
+package ru.clevertec.model
 
 class Tag {
     private int major
     private int minor
     private int patch
     private String label
+
+    Tag() {
+        major = 0;
+        minor = 0;
+        patch = 0;
+        label = "";
+    }
 
     Tag(int major, int minor, int patch, String label) {
         this.major = major

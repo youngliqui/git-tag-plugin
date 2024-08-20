@@ -1,39 +1,37 @@
 package ru.clevertec.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import ru.clevertec.task.util.GitHelper
-import ru.clevertec.task.util.Tag
+import ru.clevertec.extension.GitExtension
+import ru.clevertec.model.Tag
+import ru.clevertec.service.GitService
 
 class CreateTagTask extends DefaultTask {
+    @Input
+    GitService gitService
+
     @TaskAction
     void createTag() {
-        def currentBranch = GitHelper.getCurrentBranch()
-        println "CurrentBranch: $currentBranch"
-
-        def lastTagString = GitHelper.getLastTag()
-        println "LastTag: $lastTagString"
-
-        if (GitHelper.hasCurrentStateTag()) {
-            println "The tag has already been assigned to the current state: $lastTagString"
-            return
-        }
+        def extension = project.extensions.getByType(GitExtension)
+        def currentBranch = extension.currentBranch
+        def lastTagString = extension.lastTagString
 
         Tag newTag = calculateTag(currentBranch, lastTagString)
         println "New Tag: $newTag"
 
-        if (GitHelper.hasUncommittedChanges()) {
+        if (extension.hasUncommittedChanges) {
             logger.lifecycle("${newTag}.uncommited")
         } else {
             println "Created tag: $newTag, and pushed"
-            GitHelper.createTag(newTag.toString())
-            GitHelper.pushTag(newTag.toString())
+            gitService.createTag(newTag.toString())
+            gitService.pushTag(newTag.toString())
         }
     }
 
     static Tag calculateTag(String currentBranch, String lastTagString) {
         Tag currentTag =
-                lastTagString ? Tag.fromString(lastTagString) : new Tag(0, 0, 0, "")
+                lastTagString ? Tag.fromString(lastTagString) : new Tag()
 
         switch (currentBranch) {
             case "dev":
@@ -45,6 +43,7 @@ class CreateTagTask extends DefaultTask {
                 currentTag.setLabel("-rc")
                 break
             case "master":
+            case "main":
                 currentTag.incrementMajor()
                 break
             default:
