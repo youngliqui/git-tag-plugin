@@ -1,0 +1,32 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven-publish'
+}
+
+group = 'ru.clevertec'
+version = '1.0.0'
+
+gradlePlugin {
+    plugins {
+        gitTagPlugin {
+            description = "Сreates a git tag depending on the current branch"
+            id = "ru.clevertec.git-tag-plugin"
+            implementationClass = 'ru.clevertec.plugin.GitTagPlugin'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0-M2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M2'
+
+}
+
+test {
+    useJUnitPlatform()
+}
